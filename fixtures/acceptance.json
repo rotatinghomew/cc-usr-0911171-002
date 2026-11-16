@@ -1,0 +1,33 @@
+{
+  "context": {
+    "benefit_cap": "800",
+    "capacity": 20,
+    "policies": [
+      {
+        "policy_id": "degree",
+        "effective_from": "2026-01-01",
+        "monthly_cap": "600",
+        "income_cap": "10000",
+        "exclusive_group": "housing"
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "claim-1",
+      "owner_id": "person-1",
+      "rent": "1200",
+      "months": 2,
+      "subsidy": "400",
+      "rent_reduction": "200",
+      "demand": 1,
+      "amount": "2400",
+      "effective_from": "2026-11-01",
+      "request_key": "acceptance-1",
+      "period": "2026-11",
+      "lease_start": "2026-11-01",
+      "lease_end": "2026-11-30",
+      "household_income": "5000"
+    }
+  ]
+}
