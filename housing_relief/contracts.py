@@ -79,8 +79,8 @@ def require_datetime(value: Any, name: str) -> dt.datetime:
         result = result.replace(tzinfo=dt.timezone.utc)
     return result.astimezone(dt.timezone.utc)
 
-def canonical_json(value: Any) -> str:
-    def default(item: Any) -> Any:
+def canonical_json(value: Any, default: Any = None) -> str:
+    def fallback(item: Any) -> Any:
         if isinstance(item, (dt.date, dt.datetime)):
             return item.isoformat()
         if isinstance(item, decimal.Decimal):
@@ -89,8 +89,10 @@ def canonical_json(value: Any) -> str:
             return item.value
         if dataclasses.is_dataclass(item):
             return dataclasses.asdict(item)
+        if default is not None:
+            return default(item)
         raise TypeError(type(item).__name__)
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), default=default)
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), default=fallback)
 
 def fingerprint(value: Any) -> str:
     return hashlib.sha256(canonical_json(value).encode('utf-8')).hexdigest()

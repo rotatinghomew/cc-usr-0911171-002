@@ -1,0 +1,75 @@
+{
+  "request_key": "impact-acceptance-1",
+  "periods": ["2026-11", "2026-12"],
+  "baseline_policies": [
+    {
+      "policy_id": "degree",
+      "version": 1,
+      "effective_from": "2026-01-01",
+      "monthly_cap": "600",
+      "income_cap": "10000",
+      "exclusive_group": "housing"
+    }
+  ],
+  "candidate_policies": [
+    {
+      "policy_id": "degree",
+      "version": 2,
+      "effective_from": "2026-11-01",
+      "monthly_cap": "450",
+      "income_cap": "10000",
+      "exclusive_group": "housing"
+    }
+  ],
+  "leases": [
+    {
+      "lease_id": "lease-full",
+      "owner_id": "person-1",
+      "rent": "2400",
+      "household_income": "5000",
+      "lease_start": "2026-11-01",
+      "lease_end": "2026-12-31",
+      "status": "active"
+    },
+    {
+      "lease_id": "lease-mid-month",
+      "owner_id": "person-2",
+      "rent": "3000",
+      "household_income": "8000",
+      "lease_start": "2026-11-16",
+      "lease_end": "2026-11-30",
+      "status": "active"
+    },
+    {
+      "lease_id": "lease-unknown-income",
+      "owner_id": "person-3",
+      "rent": "2000",
+      "lease_start": "2026-11-01",
+      "lease_end": "2026-11-30",
+      "status": "active"
+    }
+  ],
+  "historical": [
+    {
+      "lease_id": "lease-full",
+      "period": "2026-11",
+      "benefit": "600.00",
+      "payable": "1800.00",
+      "gross": "2400.00"
+    },
+    {
+      "lease_id": "lease-full",
+      "period": "2026-12",
+      "benefit": "600.00",
+      "payable": "1800.00",
+      "gross": "2400.00"
+    },
+    {
+      "lease_id": "lease-mid-month",
+      "period": "2026-11",
+      "benefit": "300.00",
+      "payable": "1200.00",
+      "gross": "1500.00"
+    }
+  ]
+}

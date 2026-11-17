@@ -2,6 +2,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from .analysis.policy_impact import PolicyImpactService
 from .reporting import Reporter
 from .service import ApplicationService
 from .storage import Database
@@ -15,6 +16,7 @@ def main(argv=None):
     sub=parser.add_subparsers(dest='command',required=True)
     run=sub.add_parser('run'); run.add_argument('--fixture',required=True); run.add_argument('--output',required=True)
     report=sub.add_parser('report'); report.add_argument('--kind')
+    impact=sub.add_parser('impact'); impact.add_argument('--fixture',required=True); impact.add_argument('--output'); impact.add_argument('--request-key')
     args=parser.parse_args(argv); database=Database(args.database)
     if args.command=='run':
         fixture=load_json(args.fixture); service=ApplicationService(database); outputs=[]
@@ -22,5 +24,10 @@ def main(argv=None):
             outputs.append(service.process(item,fixture.get('context',{}),item.get('request_key',f'item-{index}')))
         payload={'product':'青年人才住房补贴与租金减免清算中心','processed':len(outputs),'outputs':outputs,'report':Reporter(database).overview()}
         Path(args.output).parent.mkdir(parents=True,exist_ok=True); Path(args.output).write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8')
+        print(json.dumps(payload,ensure_ascii=False,sort_keys=True)); return 0
+    if args.command=='impact':
+        fixture=load_json(args.fixture); payload=PolicyImpactService(database).submit(fixture,args.request_key)
+        if args.output:
+            Path(args.output).parent.mkdir(parents=True,exist_ok=True); Path(args.output).write_text(json.dumps(payload,ensure_ascii=False,indent=2,sort_keys=True),encoding='utf-8')
         print(json.dumps(payload,ensure_ascii=False,sort_keys=True)); return 0
     payload=Reporter(database).owner_breakdown(args.kind) if args.kind else Reporter(database).overview(); print(json.dumps(payload,ensure_ascii=False,sort_keys=True)); return 0
